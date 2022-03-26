@@ -1,5 +1,10 @@
 // Enum defines
 
+enum Logic_LV {
+    enable = 0,
+    disable = 1
+}
+
 enum MCP_Regs {
     IODIR = 0x01,
     DEFVAL = 0x08,

@@ -1,18 +1,27 @@
 /**
- * IoT-Wuerfel 
- * GBS St. Gallen, 2022
- */
+* IoT-Wuerfel 
+* GBS St. Gallen, 2022
+*/
 
-//% color="#00796b" icon="\uf1eb"
+//% color="#ffb300" icon="\uf2db"
 namespace MCP23008 {
     let i2c_addr = 0x20
+
+    //% blockId="MCP_Setup"
+    //% block="MCP Setup | Address %address | IO-Config %iodir | IO-Value: %gpio"
+    //% advanced=false
+    export function setup(address: number, iodir: number, gpio: number) {
+        //i2c_addr = address
+        i2c_write(MCP_Regs.IODIR, iodir)
+        i2c_write(MCP_Regs.GPIO, gpio)
+    }
 
     //% blockId="MCP_I2C_Write"
     //% block="MCP I2C Write to %register Data %value"
     //% advanced=false
     export function i2c_write(register: MCP_Regs, value: number) {
-        pins.i2cWriteNumber(i2c_addr, register, NumberFormat.UInt8LE, true)
-        pins.i2cWriteNumber(i2c_addr, value, NumberFormat.UInt8LE, false)
+        pins.i2cWriteNumber(i2c_addr, register, NumberFormat.Int8LE, true)
+        pins.i2cWriteNumber(i2c_addr, value, NumberFormat.Int8LE, false)
     }
 
 
@@ -20,30 +29,36 @@ namespace MCP23008 {
     //% block="MCP read register %register"
     //% advanced=false
     export function i2c_read(register: MCP_Regs) {
-        pins.i2cWriteNumber(i2c_addr, register, NumberFormat.UInt8LE, true)
+        pins.i2cWriteNumber(i2c_addr, register, NumberFormat.Int8LE, true)
         return pins.i2cReadNumber(i2c_addr, NumberFormat.UInt8LE, false)
     }
+
+    //% blockId="MCP_Pin_Get"
+    //% block="MCP Read pin %pin"
+    //% advanced=false
+    export function pin_get(pin: MCP_Pins) {
+        let value = i2c_read(MCP_Regs.GPIO)
+        return (value & pin)
+    }
+
 
     //% blockId="MCP_Pin_Set"
     //% block="MCP set pin %pin to %value"
     //% advanced=false
-    export function pin_set(pin: MCP_Pins, value: number) {
-        let pinvalue = i2c_read(MCP_Regs.GPIO)
-        if (value) {
-            value = pinvalue | pin
+    export function pin_set(pin: MCP_Pins, value: Logic_LV) {
+        let active = i2c_read(MCP_Regs.GPIO)
+        let newValue = 0
+        if (value == Logic_LV.enable) {
+            newValue = active & (~pin)
         }
         else {
-            value = pinvalue & ~pin
+            newValue = active | pin
         }
-        pins.i2cWriteNumber(i2c_addr, MCP_Regs.GPIO, NumberFormat.UInt8LE, true)
-        pins.i2cWriteNumber(i2c_addr, value, NumberFormat.UInt8LE, false)
-        return value
+        i2c_write(MCP_Regs.GPIO, newValue)
     }
 
 
 }
-
-
 basic.forever(function () {
 	
 })
