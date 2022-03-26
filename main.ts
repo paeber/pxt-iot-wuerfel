@@ -5,8 +5,6 @@
 
 //% color="#ffb300" icon="\uf2db"
 namespace MCP23008 {
-    let i2c_addr = 0x20
-
     //% blockId="MCP_Setup"
     //% block="MCP Setup | Address %address | IO-Config %iodir | IO-Value: %gpio"
     //% advanced=false
@@ -20,8 +18,8 @@ namespace MCP23008 {
     //% block="MCP I2C Write to %register Data %value"
     //% advanced=false
     export function i2c_write(register: MCP_Regs, value: number) {
-        pins.i2cWriteNumber(i2c_addr, register, NumberFormat.Int8LE, true)
-        pins.i2cWriteNumber(i2c_addr, value, NumberFormat.Int8LE, false)
+        pins.i2cWriteNumber(0x20, register, NumberFormat.Int8LE, true)
+        pins.i2cWriteNumber(0x20, value, NumberFormat.Int8LE, false)
     }
 
 
@@ -29,8 +27,8 @@ namespace MCP23008 {
     //% block="MCP read register %register"
     //% advanced=false
     export function i2c_read(register: MCP_Regs) {
-        pins.i2cWriteNumber(i2c_addr, register, NumberFormat.Int8LE, true)
-        return pins.i2cReadNumber(i2c_addr, NumberFormat.UInt8LE, false)
+        pins.i2cWriteNumber(0x20, register, NumberFormat.Int8LE, true)
+        return pins.i2cReadNumber(0x20, NumberFormat.UInt8LE, false)
     }
 
     //% blockId="MCP_Pin_Get"
