@@ -7,7 +7,7 @@
 namespace MCP23008 {
     //% blockId="MCP_Setup"
     //% block="MCP Setup | Address %address | IO-Config %iodir | IO-Value: %gpio"
-    //% advanced=false
+    //% advanced=true
     export function setup(address: number, iodir: number, gpio: number) {
         //i2c_addr = address
         i2c_write(MCP_Regs.IODIR, iodir)
@@ -57,6 +57,3 @@ namespace MCP23008 {
 
 
 }
-basic.forever(function () {
-
-})

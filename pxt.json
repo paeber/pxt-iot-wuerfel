@@ -11,7 +11,8 @@
         "main.ts",
         "README.md",
         "enums.ts",
-        "mcp23008.ts"
+        "mcp23008.ts",
+        "rak3172.ts"
     ],
     "testFiles": [
         "test.ts"
