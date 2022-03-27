@@ -1,5 +1,5 @@
 
-> Diese Seite bei [https://paeber.github.io/pxt-gbs-nodeboard/](https://paeber.github.io/pxt-gbs-nodeboard/) öffnen
+> Diese Seite bei [https://paeber.github.io/pxt-gbs-nodeboard/](https://paeber.github.io/pxt-iot-wuerfel/) öffnen
 
 ## Als Erweiterung verwenden
 
